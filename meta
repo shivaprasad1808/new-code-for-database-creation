@@ -1,0 +1,42 @@
+create table drug_info 
+(dr_acc_no varchar(10) primary key not null unique,
+dr_name varchar(45),
+dr_smiles varchar(300),
+inchi_key varchar(300),
+CAS_NO varchar(15),
+dr_mol_wt   double(6,2),
+dr_mol_formula varchar(50),
+pubchem_id varchar(15),
+IUPAC varchar(300),
+dr_ei double(6,2),
+dr_2D varchar(15),
+dr_3D varchar(15));
+
+create table met_info(
+met_acc_no varchar(15) primary key not null unique,
+dr_acc_no varchar(10),
+met_smiles varchar(300),
+met_mol_wt double(6,2),
+met_mol_formula varchar(50),
+met_ei double(6,2),
+met_2D varchar(15),
+met_3D varchar(15),
+foreign key (dr_acc_no) references drug_info(dr_acc_no));
+
+
+create table met_dup(
+dr_acc_no varchar(10),
+met_acc_no varchar(15) ,
+met_2D varchar(15),
+met_3D varchar(15),
+foreign key (dr_acc_no) references drug_info(dr_acc_no),
+foreign key (met_acc_no) references met_info(met_acc_no));
+
+
+
+create table local_reactivity_descriptor(
+met_acc_no varchar(15), 
+reactive_centre varchar(6),
+fukui_function double(6,2),
+local_ei double(6,2),
+foreign key (met_acc_no) references met_info(met_acc_no))
